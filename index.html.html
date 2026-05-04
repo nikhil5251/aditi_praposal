@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Will you marry me? 💍</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Dancing+Script:wght@700&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #ffb3c6 0%, #ff85a1 30%, #ffc2d1 60%, #ffb3c6 100%);
+    font-family: 'Lato', sans-serif;
+    overflow-x: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .hearts-bg {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+
+  .heart-float {
+    position: absolute;
+    font-size: 1.6rem;
+    animation: floatUp linear infinite;
+    opacity: 0.55;
+    user-select: none;
+  }
+
+  @keyframes floatUp {
+    0%   { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+    10%  { opacity: 0.55; }
+    90%  { opacity: 0.55; }
+    100% { transform: translateY(-10vh) rotate(20deg); opacity: 0; }
+  }
+
+  .card {
+    position: relative;
+    z-index: 10;
+    background: rgba(255,255,255,0.55);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1.5px solid rgba(255,255,255,0.7);
+    border-radius: 32px;
+    padding: 56px 64px 52px;
+    text-align: center;
+    max-width: 580px;
+    width: 90%;
+    box-shadow: 0 20px 80px rgba(210, 60, 100, 0.2), 0 4px 24px rgba(210,60,100,0.1);
+    animation: fadeInCard 1s ease both;
+  }
+
+  @keyframes fadeInCard {
+    from { opacity: 0; transform: translateY(30px) scale(0.96); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .ring-emoji {
+    font-size: 3.2rem;
+    display: block;
+    margin-bottom: 18px;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.15) rotate(8deg); }
+  }
+
+  .name {
+    font-family: 'Dancing Script', cursive;
+    font-size: 2rem;
+    color: #c0335c;
+    margin-bottom: 6px;
+    animation: fadeInCard 1.2s ease 0.2s both;
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 700;
+    color: #8b1a3a;
+    line-height: 1.2;
+    margin-bottom: 10px;
+    animation: fadeInCard 1.2s ease 0.4s both;
+  }
+
+  .subtitle {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.05rem;
+    color: #b84069;
+    margin-bottom: 42px;
+    animation: fadeInCard 1.2s ease 0.6s both;
+  }
+
+  .btn-row {
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    position: relative;
+    min-height: 60px;
+    animation: fadeInCard 1.2s ease 0.8s both;
+  }
+
+  .btn {
+    font-family: 'Lato', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    padding: 16px 52px;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+
+  .btn-yes {
+    background: linear-gradient(135deg, #e84393 0%, #c0335c 100%);
+    color: #fff;
+    box-shadow: 0 6px 28px rgba(200,50,100,0.4);
+  }
+
+  .btn-yes:hover {
+    transform: scale(1.06);
+    box-shadow: 0 10px 38px rgba(200,50,100,0.5);
+  }
+
+  .btn-yes:active { transform: scale(0.97); }
+
+  .btn-no {
+    background: rgba(255,255,255,0.7);
+    color: #c0335c;
+    border: 1.5px solid #f0a0bc;
+    box-shadow: 0 4px 16px rgba(200,100,140,0.15);
+    position: absolute;
+    white-space: nowrap;
+    transition: left 0s, top 0s, transform 0.15s;
+    pointer-events: auto;
+  }
+
+  .messages {
+    margin-top: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    animation: none;
+  }
+
+  .msg {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.05rem;
+    color: #a52248;
+    background: rgba(255,255,255,0.5);
+    border-radius: 16px;
+    padding: 10px 22px;
+    opacity: 0;
+    transform: translateY(12px);
+    animation: slideMsg 0.5s ease forwards;
+  }
+
+  @keyframes slideMsg {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* YES screen */
+  .yes-screen {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    animation: fadeInCard 0.8s ease both;
+  }
+
+  .yes-screen.active { display: flex; }
+
+  .yes-title {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(2rem, 6vw, 3.4rem);
+    color: #8b1a3a;
+    line-height: 1.25;
+  }
+
+  .yes-hearts {
+    font-size: 2.4rem;
+    letter-spacing: 8px;
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+
+  .confetti-piece {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    pointer-events: none;
+    z-index: 999;
+    animation: confettiFall linear forwards;
+  }
+
+  @keyframes confettiFall {
+    0%   { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Floating hearts background -->
+<div class="hearts-bg" id="heartsBg"></div>
+
+<div class="card" id="mainCard">
+
+  <!-- Proposal view -->
+  <div id="proposalView">
+    <span class="ring-emoji">💍</span>
+    <p class="name">Aditi,</p>
+    <h1>Will you marry me?</h1>
+    <p class="subtitle">You are the reason my heart smiles every single day&hellip;</p>
+
+    <div class="btn-row" id="btnRow">
+      <button class="btn btn-yes" id="yesBtn">YES 💖</button>
+      <button class="btn btn-no" id="noBtn">NO</button>
+    </div>
+
+    <div class="messages" id="messages"></div>
+  </div>
+
+  <!-- YES result view -->
+  <div class="yes-screen" id="yesScreen">
+    <span style="font-size:3.5rem;">🥹💍🌸</span>
+    <p class="yes-title">You are my<br>beautiful wife 💕</p>
+    <p style="font-family:'Playfair Display',serif;font-style:italic;color:#b84069;font-size:1.1rem;">Forever & always, my love.</p>
+    <div class="yes-hearts">💗💗💗</div>
+  </div>
+
+</div>
+
+<script>
+(function() {
+  // ── Floating hearts ──────────────────────────────────────
+  const heartsBg = document.getElementById('heartsBg');
+  const heartEmojis = ['💖','💕','💗','💓','💞','🌸','💝','❤️','🌷'];
+  for (let i = 0; i < 28; i++) {
+    const h = document.createElement('span');
+    h.className = 'heart-float';
+    h.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+    h.style.left = Math.random() * 100 + 'vw';
+    h.style.animationDuration = (6 + Math.random() * 10) + 's';
+    h.style.animationDelay = (-Math.random() * 12) + 's';
+    h.style.fontSize = (1 + Math.random() * 1.2) + 'rem';
+    heartsBg.appendChild(h);
+  }
+
+  // ── Elements ─────────────────────────────────────────────
+  const yesBtn     = document.getElementById('yesBtn');
+  const noBtn      = document.getElementById('noBtn');
+  const btnRow     = document.getElementById('btnRow');
+  const messages   = document.getElementById('messages');
+  const yesScreen  = document.getElementById('yesScreen');
+  const propView   = document.getElementById('proposalView');
+
+  let escapeCount  = 0;
+  let msgShown     = 0;
+  const pleas = [
+    'Please NO… 🥺',
+    'NKO NA YAAR PLEASE 😭',
+    'YOU ARE MY BABY PLEASE NO 💔'
+  ];
+
+  // ── Position NO button absolutely within btnRow ───────────
+  function positionNoBtnInitial() {
+    const rowRect = btnRow.getBoundingClientRect();
+    const yesBtnRect = yesBtn.getBoundingClientRect();
+    // Place NO button to the right of YES inside the row
+    noBtn.style.position = 'absolute';
+    noBtn.style.left = (yesBtnRect.right - rowRect.left + 24) + 'px';
+    noBtn.style.top = '0px';
+  }
+
+  // Run after layout
+  setTimeout(positionNoBtnInitial, 100);
+
+  // ── Proximity flee logic ──────────────────────────────────
+  const FLEE_RADIUS = 110; // px — trigger distance
+
+  document.addEventListener('mousemove', function(e) {
+    const rect = noBtn.getBoundingClientRect();
+    const nbCx = rect.left + rect.width  / 2;
+    const nbCy = rect.top  + rect.height / 2;
+    const dx   = e.clientX - nbCx;
+    const dy   = e.clientY - nbCy;
+    const dist = Math.hypot(dx, dy);
+
+    if (dist < FLEE_RADIUS) {
+      escapeCount++;
+      showNextMessage();
+      teleportNoBtn(e.clientX, e.clientY);
+    }
+  });
+
+  // Touch support
+  document.addEventListener('touchmove', function(e) {
+    const touch = e.touches[0];
+    const rect  = noBtn.getBoundingClientRect();
+    const nbCx  = rect.left + rect.width  / 2;
+    const nbCy  = rect.top  + rect.height / 2;
+    const dist  = Math.hypot(touch.clientX - nbCx, touch.clientY - nbCy);
+    if (dist < FLEE_RADIUS) {
+      escapeCount++;
+      showNextMessage();
+      teleportNoBtn(touch.clientX, touch.clientY);
+    }
+  }, { passive: true });
+
+  function teleportNoBtn(cursorX, cursorY) {
+    const card    = document.getElementById('mainCard');
+    const cRect   = card.getBoundingClientRect();
+    const btnW    = noBtn.offsetWidth  || 100;
+    const btnH    = noBtn.offsetHeight || 50;
+
+    // Try up to 15 random positions inside the card that are far from cursor
+    let bestX, bestY, bestDist = 0;
+    for (let attempt = 0; attempt < 20; attempt++) {
+      const rx = Math.random() * (cRect.width  - btnW - 20) + 10;
+      const ry = Math.random() * (cRect.height - btnH - 20) + 10;
+      const screenX = cRect.left + rx + btnW / 2;
+      const screenY = cRect.top  + ry + btnH / 2;
+      const d = Math.hypot(cursorX - screenX, cursorY - screenY);
+      if (d > bestDist) { bestDist = d; bestX = rx; bestY = ry; }
+    }
+
+    noBtn.style.transition = 'none';
+    noBtn.style.left = bestX + 'px';
+    noBtn.style.top  = bestY + 'px';
+  }
+
+  function showNextMessage() {
+    if (msgShown < pleas.length) {
+      const p = document.createElement('p');
+      p.className = 'msg';
+      p.style.animationDelay = '0s';
+      p.textContent = pleas[msgShown];
+      messages.appendChild(p);
+      msgShown++;
+    }
+  }
+
+  // ── YES button ────────────────────────────────────────────
+  yesBtn.addEventListener('click', function() {
+    propView.style.display = 'none';
+    yesScreen.classList.add('active');
+    launchConfetti();
+  });
+
+  // ── Confetti burst ────────────────────────────────────────
+  const confettiColors = ['#e84393','#ff85a1','#ffd6e0','#c0335c','#ffb3c6','#fff','#f9c6d0'];
+
+  function launchConfetti() {
+    for (let i = 0; i < 90; i++) {
+      setTimeout(() => {
+        const c = document.createElement('div');
+        c.className = 'confetti-piece';
+        c.style.left  = Math.random() * 100 + 'vw';
+        c.style.background = confettiColors[Math.floor(Math.random() * confettiColors.length)];
+        c.style.width  = (6 + Math.random() * 10) + 'px';
+        c.style.height = (6 + Math.random() * 10) + 'px';
+        c.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+        c.style.animationDuration = (2 + Math.random() * 3) + 's';
+        c.style.animationDelay = (Math.random() * 0.5) + 's';
+        document.body.appendChild(c);
+        c.addEventListener('animationend', () => c.remove());
+      }, i * 15);
+    }
+  }
+
+  // Prevent NO button click from doing anything
+  noBtn.addEventListener('click', function(e) { e.preventDefault(); e.stopPropagation(); });
+
+})();
+</script>
+</body>
+</html>
