@@ -2,14 +2,23 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Will you marry me? 💍</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Dancing+Script:wght@700&family=Lato:wght@300;400&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+  :root {
+    --pink-deep:   #8b1a3a;
+    --pink-mid:    #c0335c;
+    --pink-bright: #e84393;
+    --pink-light:  #ffb3c6;
+    --pink-pale:   #ffc2d1;
+  }
+
   body {
     min-height: 100vh;
+    min-height: 100dvh;
     background: linear-gradient(135deg, #ffb3c6 0%, #ff85a1 30%, #ffc2d1 60%, #ffb3c6 100%);
     font-family: 'Lato', sans-serif;
     overflow-x: hidden;
@@ -17,8 +26,10 @@
     align-items: center;
     justify-content: center;
     position: relative;
+    padding: 16px;
   }
 
+  /* ── Floating hearts bg ── */
   .hearts-bg {
     position: fixed;
     inset: 0;
@@ -29,19 +40,19 @@
 
   .heart-float {
     position: absolute;
-    font-size: 1.6rem;
     animation: floatUp linear infinite;
     opacity: 0.55;
     user-select: none;
   }
 
   @keyframes floatUp {
-    0%   { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+    0%   { transform: translateY(110vh) rotate(0deg);  opacity: 0;    }
     10%  { opacity: 0.55; }
     90%  { opacity: 0.55; }
-    100% { transform: translateY(-10vh) rotate(20deg); opacity: 0; }
+    100% { transform: translateY(-10vh) rotate(20deg); opacity: 0;    }
   }
 
+  /* ── Card ── */
   .card {
     position: relative;
     z-index: 10;
@@ -49,122 +60,124 @@
     backdrop-filter: blur(18px);
     -webkit-backdrop-filter: blur(18px);
     border: 1.5px solid rgba(255,255,255,0.7);
-    border-radius: 32px;
-    padding: 56px 64px 52px;
+    border-radius: 28px;
+    padding: clamp(28px, 6vw, 56px) clamp(20px, 7vw, 64px) clamp(24px, 5vw, 52px);
     text-align: center;
-    max-width: 580px;
-    width: 90%;
-    box-shadow: 0 20px 80px rgba(210, 60, 100, 0.2), 0 4px 24px rgba(210,60,100,0.1);
+    width: min(580px, 100%);
+    box-shadow: 0 20px 80px rgba(210,60,100,.2), 0 4px 24px rgba(210,60,100,.1);
     animation: fadeInCard 1s ease both;
   }
 
   @keyframes fadeInCard {
     from { opacity: 0; transform: translateY(30px) scale(0.96); }
-    to   { opacity: 1; transform: translateY(0) scale(1); }
+    to   { opacity: 1; transform: translateY(0)    scale(1);    }
   }
 
+  /* ── Proposal view ── */
   .ring-emoji {
-    font-size: 3.2rem;
+    font-size: clamp(2.2rem, 8vw, 3.2rem);
     display: block;
-    margin-bottom: 18px;
+    margin-bottom: clamp(10px, 3vw, 18px);
     animation: pulse 2s ease-in-out infinite;
   }
 
   @keyframes pulse {
     0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.15) rotate(8deg); }
+    50%       { transform: scale(1.15) rotate(8deg); }
   }
 
   .name {
     font-family: 'Dancing Script', cursive;
-    font-size: 2rem;
-    color: #c0335c;
-    margin-bottom: 6px;
+    font-size: clamp(1.4rem, 5vw, 2rem);
+    color: var(--pink-mid);
+    margin-bottom: 4px;
     animation: fadeInCard 1.2s ease 0.2s both;
   }
 
   h1 {
     font-family: 'Playfair Display', serif;
-    font-size: clamp(2rem, 5vw, 3rem);
+    font-size: clamp(1.7rem, 6vw, 3rem);
     font-weight: 700;
-    color: #8b1a3a;
+    color: var(--pink-deep);
     line-height: 1.2;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     animation: fadeInCard 1.2s ease 0.4s both;
   }
 
   .subtitle {
     font-family: 'Playfair Display', serif;
     font-style: italic;
-    font-size: 1.05rem;
+    font-size: clamp(0.85rem, 2.8vw, 1.05rem);
     color: #b84069;
-    margin-bottom: 42px;
+    margin-bottom: clamp(24px, 6vw, 42px);
     animation: fadeInCard 1.2s ease 0.6s both;
   }
 
+  /* ── Button row ── */
   .btn-row {
+    position: relative;
     display: flex;
-    gap: 24px;
     justify-content: center;
     align-items: center;
-    flex-wrap: wrap;
-    position: relative;
-    min-height: 60px;
+    /* Reserve enough height so the absolute NO btn doesn't clip the card */
+    min-height: clamp(56px, 14vw, 72px);
     animation: fadeInCard 1.2s ease 0.8s both;
   }
 
   .btn {
     font-family: 'Lato', sans-serif;
-    font-size: 1.2rem;
+    font-size: clamp(1rem, 3.5vw, 1.2rem);
     font-weight: 400;
     letter-spacing: 0.12em;
-    padding: 16px 52px;
+    padding: clamp(12px, 3vw, 16px) clamp(32px, 8vw, 52px);
     border-radius: 50px;
     border: none;
     cursor: pointer;
+    touch-action: manipulation;
     transition: transform 0.15s, box-shadow 0.15s;
+    -webkit-tap-highlight-color: transparent;
   }
 
   .btn-yes {
     background: linear-gradient(135deg, #e84393 0%, #c0335c 100%);
     color: #fff;
-    box-shadow: 0 6px 28px rgba(200,50,100,0.4);
+    box-shadow: 0 6px 28px rgba(200,50,100,.4);
+    position: relative;
+    z-index: 2;
   }
 
-  .btn-yes:hover {
-    transform: scale(1.06);
-    box-shadow: 0 10px 38px rgba(200,50,100,0.5);
-  }
-
+  .btn-yes:hover  { transform: scale(1.06); box-shadow: 0 10px 38px rgba(200,50,100,.5); }
   .btn-yes:active { transform: scale(0.97); }
 
   .btn-no {
     background: rgba(255,255,255,0.7);
-    color: #c0335c;
+    color: var(--pink-mid);
     border: 1.5px solid #f0a0bc;
-    box-shadow: 0 4px 16px rgba(200,100,140,0.15);
+    box-shadow: 0 4px 16px rgba(200,100,140,.15);
     position: absolute;
     white-space: nowrap;
-    transition: left 0s, top 0s, transform 0.15s;
-    pointer-events: auto;
+    /* start to the right of YES */
+    left: calc(50% + 90px);
+    top: 50%;
+    transform: translateY(-50%);
   }
 
+  /* ── Messages ── */
   .messages {
-    margin-top: 28px;
+    margin-top: clamp(16px, 4vw, 28px);
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    animation: none;
+    gap: 8px;
   }
 
   .msg {
     font-family: 'Playfair Display', serif;
     font-style: italic;
-    font-size: 1.05rem;
+    font-size: clamp(0.85rem, 2.8vw, 1.05rem);
     color: #a52248;
     background: rgba(255,255,255,0.5);
-    border-radius: 16px;
-    padding: 10px 22px;
+    border-radius: 14px;
+    padding: 8px 18px;
     opacity: 0;
     transform: translateY(12px);
     animation: slideMsg 0.5s ease forwards;
@@ -174,12 +187,12 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
-  /* YES screen */
+  /* ── YES screen ── */
   .yes-screen {
     display: none;
     flex-direction: column;
     align-items: center;
-    gap: 18px;
+    gap: clamp(12px, 3vw, 18px);
     animation: fadeInCard 0.8s ease both;
   }
 
@@ -187,41 +200,67 @@
 
   .yes-title {
     font-family: 'Dancing Script', cursive;
-    font-size: clamp(2rem, 6vw, 3.4rem);
-    color: #8b1a3a;
+    font-size: clamp(1.8rem, 7vw, 3.4rem);
+    color: var(--pink-deep);
     line-height: 1.25;
   }
 
+  .yes-subtitle {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    color: #b84069;
+    font-size: clamp(0.9rem, 2.8vw, 1.1rem);
+  }
+
   .yes-hearts {
-    font-size: 2.4rem;
+    font-size: clamp(1.6rem, 5vw, 2.4rem);
     letter-spacing: 8px;
     animation: pulse 1.5s ease-in-out infinite;
   }
 
+  /* ── Confetti ── */
   .confetti-piece {
     position: fixed;
-    width: 10px;
-    height: 10px;
-    border-radius: 2px;
     pointer-events: none;
     z-index: 999;
+    border-radius: 2px;
     animation: confettiFall linear forwards;
   }
 
   @keyframes confettiFall {
-    0%   { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+    0%   { transform: translateY(-20px) rotate(0deg);   opacity: 1; }
     100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+  }
+
+  /* ── Mobile-specific tweaks ── */
+  @media (max-width: 480px) {
+    body { padding: 12px; align-items: flex-start; padding-top: 32px; }
+
+    .card {
+      border-radius: 22px;
+    }
+
+    /* On mobile the NO btn needs more room to roam — expand the container */
+    .btn-row {
+      min-height: 130px;
+    }
+
+    .btn-no {
+      /* reset and let JS place it */
+      left: auto;
+      top: auto;
+      transform: none;
+    }
   }
 </style>
 </head>
 <body>
 
-<!-- Floating hearts background -->
 <div class="hearts-bg" id="heartsBg"></div>
 
 <div class="card" id="mainCard">
 
-  <!-- Proposal view -->
+  <!-- Proposal -->
   <div id="proposalView">
     <span class="ring-emoji">💍</span>
     <p class="name">Aditi,</p>
@@ -230,110 +269,120 @@
 
     <div class="btn-row" id="btnRow">
       <button class="btn btn-yes" id="yesBtn">YES 💖</button>
-      <button class="btn btn-no" id="noBtn">NO</button>
+      <button class="btn btn-no"  id="noBtn">NO</button>
     </div>
 
     <div class="messages" id="messages"></div>
   </div>
 
-  <!-- YES result view -->
+  <!-- YES result -->
   <div class="yes-screen" id="yesScreen">
-    <span style="font-size:3.5rem;">🥹💍🌸</span>
+    <span style="font-size:clamp(2.4rem,8vw,3.5rem);">🥹💍🌸</span>
     <p class="yes-title">You are my<br>beautiful wife 💕</p>
-    <p style="font-family:'Playfair Display',serif;font-style:italic;color:#b84069;font-size:1.1rem;">Forever & always, my love.</p>
+    <p class="yes-subtitle">Forever &amp; always, my love.</p>
     <div class="yes-hearts">💗💗💗</div>
   </div>
 
 </div>
 
 <script>
-(function() {
-  // ── Floating hearts ──────────────────────────────────────
-  const heartsBg = document.getElementById('heartsBg');
+(function () {
+
+  /* ── Floating hearts ───────────────────────────────── */
+  const heartsBg    = document.getElementById('heartsBg');
   const heartEmojis = ['💖','💕','💗','💓','💞','🌸','💝','❤️','🌷'];
-  for (let i = 0; i < 28; i++) {
+  const isMobile    = window.innerWidth <= 480;
+  const COUNT       = isMobile ? 16 : 28;
+
+  for (let i = 0; i < COUNT; i++) {
     const h = document.createElement('span');
-    h.className = 'heart-float';
+    h.className   = 'heart-float';
     h.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
-    h.style.left = Math.random() * 100 + 'vw';
+    h.style.left              = Math.random() * 100 + 'vw';
     h.style.animationDuration = (6 + Math.random() * 10) + 's';
-    h.style.animationDelay = (-Math.random() * 12) + 's';
-    h.style.fontSize = (1 + Math.random() * 1.2) + 'rem';
+    h.style.animationDelay    = (-Math.random() * 12) + 's';
+    h.style.fontSize          = (isMobile ? 0.8 : 1) + (Math.random() * 1) + 'rem';
     heartsBg.appendChild(h);
   }
 
-  // ── Elements ─────────────────────────────────────────────
-  const yesBtn     = document.getElementById('yesBtn');
-  const noBtn      = document.getElementById('noBtn');
-  const btnRow     = document.getElementById('btnRow');
-  const messages   = document.getElementById('messages');
+  /* ── Elements ──────────────────────────────────────── */
+  const yesBtn   = document.getElementById('yesBtn');
+  const noBtn    = document.getElementById('noBtn');
+  const btnRow   = document.getElementById('btnRow');
+  const messages = document.getElementById('messages');
   const yesScreen  = document.getElementById('yesScreen');
-  const propView   = document.getElementById('proposalView');
+  const propView = document.getElementById('proposalView');
 
-  let escapeCount  = 0;
-  let msgShown     = 0;
+  let escapeCount = 0;
+  let msgShown    = 0;
   const pleas = [
     'Please NO… 🥺',
     'NKO NA YAAR PLEASE 😭',
     'YOU ARE MY BABY PLEASE NO 💔'
   ];
 
-  // ── Position NO button absolutely within btnRow ───────────
-  function positionNoBtnInitial() {
+  /* ── Initial NO-button placement ───────────────────── */
+  function placeNoBtnInitial() {
     const rowRect = btnRow.getBoundingClientRect();
-    const yesBtnRect = yesBtn.getBoundingClientRect();
-    // Place NO button to the right of YES inside the row
+    const yesRect = yesBtn.getBoundingClientRect();
+    const btnW    = noBtn.offsetWidth  || 80;
+    const btnH    = noBtn.offsetHeight || 44;
+
     noBtn.style.position = 'absolute';
-    noBtn.style.left = (yesBtnRect.right - rowRect.left + 24) + 'px';
-    noBtn.style.top = '0px';
+
+    if (isMobile) {
+      // Put NO below YES centred
+      noBtn.style.left = ((rowRect.width - btnW) / 2) + 'px';
+      noBtn.style.top  = (yesBtn.offsetTop + yesBtn.offsetHeight + 16) + 'px';
+    } else {
+      // Right of YES
+      noBtn.style.left = (yesRect.right - rowRect.left + 24) + 'px';
+      noBtn.style.top  = ((rowRect.height - btnH) / 2) + 'px';
+    }
   }
 
-  // Run after layout
-  setTimeout(positionNoBtnInitial, 100);
+  setTimeout(placeNoBtnInitial, 120);
 
-  // ── Proximity flee logic ──────────────────────────────────
-  const FLEE_RADIUS = 110; // px — trigger distance
+  /* ── Flee logic (shared core) ──────────────────────── */
+  const FLEE_RADIUS = isMobile ? 80 : 110;
 
-  document.addEventListener('mousemove', function(e) {
+  function handleProximity(cx, cy) {
     const rect = noBtn.getBoundingClientRect();
     const nbCx = rect.left + rect.width  / 2;
     const nbCy = rect.top  + rect.height / 2;
-    const dx   = e.clientX - nbCx;
-    const dy   = e.clientY - nbCy;
-    const dist = Math.hypot(dx, dy);
+    const dist = Math.hypot(cx - nbCx, cy - nbCy);
 
     if (dist < FLEE_RADIUS) {
       escapeCount++;
       showNextMessage();
-      teleportNoBtn(e.clientX, e.clientY);
+      teleportNoBtn(cx, cy);
     }
+  }
+
+  /* Mouse */
+  document.addEventListener('mousemove', e => handleProximity(e.clientX, e.clientY));
+
+  /* Touch – use touchstart & touchmove for maximum responsiveness on mobile */
+  ['touchstart', 'touchmove'].forEach(evtName => {
+    document.addEventListener(evtName, e => {
+      const t = e.touches[0];
+      if (t) handleProximity(t.clientX, t.clientY);
+    }, { passive: true });
   });
 
-  // Touch support
-  document.addEventListener('touchmove', function(e) {
-    const touch = e.touches[0];
-    const rect  = noBtn.getBoundingClientRect();
-    const nbCx  = rect.left + rect.width  / 2;
-    const nbCy  = rect.top  + rect.height / 2;
-    const dist  = Math.hypot(touch.clientX - nbCx, touch.clientY - nbCy);
-    if (dist < FLEE_RADIUS) {
-      escapeCount++;
-      showNextMessage();
-      teleportNoBtn(touch.clientX, touch.clientY);
-    }
-  }, { passive: true });
-
+  /* ── Teleport NO btn to a far corner inside the card ── */
   function teleportNoBtn(cursorX, cursorY) {
-    const card    = document.getElementById('mainCard');
-    const cRect   = card.getBoundingClientRect();
-    const btnW    = noBtn.offsetWidth  || 100;
-    const btnH    = noBtn.offsetHeight || 50;
+    const card = document.getElementById('mainCard');
+    const cRect = card.getBoundingClientRect();
+    const btnW  = noBtn.offsetWidth  || 80;
+    const btnH  = noBtn.offsetHeight || 44;
+    const PAD   = 12;
 
-    // Try up to 15 random positions inside the card that are far from cursor
-    let bestX, bestY, bestDist = 0;
-    for (let attempt = 0; attempt < 20; attempt++) {
-      const rx = Math.random() * (cRect.width  - btnW - 20) + 10;
-      const ry = Math.random() * (cRect.height - btnH - 20) + 10;
+    let bestX = 0, bestY = 0, bestDist = 0;
+
+    for (let attempt = 0; attempt < 25; attempt++) {
+      const rx = PAD + Math.random() * (cRect.width  - btnW - PAD * 2);
+      const ry = PAD + Math.random() * (cRect.height - btnH - PAD * 2);
       const screenX = cRect.left + rx + btnW / 2;
       const screenY = cRect.top  + ry + btnH / 2;
       const d = Math.hypot(cursorX - screenX, cursorY - screenY);
@@ -345,47 +394,50 @@
     noBtn.style.top  = bestY + 'px';
   }
 
+  /* ── Messages ──────────────────────────────────────── */
   function showNextMessage() {
     if (msgShown < pleas.length) {
       const p = document.createElement('p');
-      p.className = 'msg';
-      p.style.animationDelay = '0s';
+      p.className   = 'msg';
       p.textContent = pleas[msgShown];
       messages.appendChild(p);
       msgShown++;
     }
   }
 
-  // ── YES button ────────────────────────────────────────────
-  yesBtn.addEventListener('click', function() {
+  /* ── YES ────────────────────────────────────────────── */
+  yesBtn.addEventListener('click', () => {
     propView.style.display = 'none';
     yesScreen.classList.add('active');
     launchConfetti();
   });
 
-  // ── Confetti burst ────────────────────────────────────────
+  /* ── Confetti ───────────────────────────────────────── */
   const confettiColors = ['#e84393','#ff85a1','#ffd6e0','#c0335c','#ffb3c6','#fff','#f9c6d0'];
 
   function launchConfetti() {
-    for (let i = 0; i < 90; i++) {
+    const total = isMobile ? 60 : 90;
+    for (let i = 0; i < total; i++) {
       setTimeout(() => {
         const c = document.createElement('div');
         c.className = 'confetti-piece';
-        c.style.left  = Math.random() * 100 + 'vw';
-        c.style.background = confettiColors[Math.floor(Math.random() * confettiColors.length)];
-        c.style.width  = (6 + Math.random() * 10) + 'px';
-        c.style.height = (6 + Math.random() * 10) + 'px';
-        c.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+        c.style.left             = Math.random() * 100 + 'vw';
+        c.style.top              = '-10px';
+        c.style.background       = confettiColors[Math.floor(Math.random() * confettiColors.length)];
+        c.style.width            = (6 + Math.random() * 8) + 'px';
+        c.style.height           = (6 + Math.random() * 8) + 'px';
+        c.style.borderRadius     = Math.random() > 0.5 ? '50%' : '2px';
         c.style.animationDuration = (2 + Math.random() * 3) + 's';
-        c.style.animationDelay = (Math.random() * 0.5) + 's';
+        c.style.animationDelay   = (Math.random() * 0.4) + 's';
         document.body.appendChild(c);
         c.addEventListener('animationend', () => c.remove());
       }, i * 15);
     }
   }
 
-  // Prevent NO button click from doing anything
-  noBtn.addEventListener('click', function(e) { e.preventDefault(); e.stopPropagation(); });
+  /* Prevent accidental NO click */
+  noBtn.addEventListener('click',      e => { e.preventDefault(); e.stopPropagation(); });
+  noBtn.addEventListener('touchstart', e => { e.preventDefault(); e.stopPropagation(); }, { passive: false });
 
 })();
 </script>
